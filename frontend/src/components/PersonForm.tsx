@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import api from '../services/api';
+import registerPeople from '../services/register';
 
 export const PersonForm = () => {
   const [name, setName] = useState('');
@@ -8,11 +8,11 @@ export const PersonForm = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await api.post('/people', { name, age: Number(age) });
+      await registerPeople(name, Number(age));
       alert('Pessoa salva com sucesso!');
       setName('');
       setAge('');
-    } catch {
+    } catch (error) {
       alert('Erro ao salvar pessoa');
     }
   };
