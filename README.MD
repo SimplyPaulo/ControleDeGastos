@@ -89,4 +89,4 @@ O painel do Vite fornecerá um link local [Vite](http://localhost:5173). Abra es
 <br>
 <br>
 
-**Desenvolvido com dedicação por Paulo Alexandre Medeiro - [LinkedIn](https://www.linkedin.com/in/pauloamedeiro/)**
+**Desenvolvido por Paulo Alexandre Medeiro - [LinkedIn](https://www.linkedin.com/in/pauloamedeiro/)**
