@@ -1,9 +1,12 @@
 import { Home } from './screens';
 import 'antd/dist/reset.css';
+import { App as AntdApp } from 'antd';
 
 function App() {
   return (
-    <Home />
+    <AntdApp>
+      <Home />
+    </AntdApp>
   );
 }
 

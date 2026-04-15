@@ -12,11 +12,9 @@ namespace ExpenseTracker.Models
         public TransactionType Type { get; set; }
         
         public int CategoryId { get; set; }
-        [JsonIgnore]
         public Category? Category { get; set; }
 
         public int PersonId { get; set; }
-        [JsonIgnore]
         public Person? Person { get; set; }
     }
 }

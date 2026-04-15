@@ -1,16 +1,12 @@
-import api from '../services/api';
+import api from './api';
+import type { SummaryResponse } from '../types';
 
-const summary = async () => {
-    try {
-        const resPeople = await api.get('/summary/people');
-        return resPeople.data;
+export const getSummaryByPeople = async (): Promise<SummaryResponse> => {
+  const response = await api.get('/summary/people');
+  return response.data;
+};
 
-        const resCategory = await api.get('/summary/categories');
-        return resCategory.data;
-    }
-    catch (error) {
-        console.error("Erro ao buscar os resumos", error);
-    }
-}
-export default summary;
-
+export const getSummaryByCategories = async (): Promise<SummaryResponse> => {
+  const response = await api.get('/summary/categories');
+  return response.data;
+};

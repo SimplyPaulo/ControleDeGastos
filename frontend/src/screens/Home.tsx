@@ -1,4 +1,5 @@
 import 'antd/dist/reset.css';
+import './Home.css';
 
 import { TransactionForm, PersonForm, CategoryForm, SummaryDashboard, TransactionList } from '../components';
 import { Typography } from 'antd';
@@ -7,33 +8,29 @@ const { Title } = Typography;
 
 function Home() {
   return (
-    <div style={{ padding: '20px', fontFamily: 'sans-serif', maxWidth: '1200px', margin: '0 auto' }}>
-      <h1 style={{ borderBottom: '2px solid #ccc', paddingBottom: '10px' }}>Sistema de Controle de Gastos</h1>
+    <div className="home-container">
+      <h1 className="home-header">Sistema de Controle de Gastos</h1>
 
-      {/* Seção de Cadastros */}
-      <div style={{ display: 'flex', gap: '40px', flexWrap: 'wrap', marginBottom: '40px' }}>
-        <div style={{ flex: 1, minWidth: '300px' }}>
+      <div className="flex-container">
+        <div className="flex-column">
           <PersonForm />
-          <hr />
           <CategoryForm />
-          <Title> Ant Design</Title>
         </div>
 
-        <div style={{ flex: 1, minWidth: '300px', backgroundColor: '#fafafa', padding: '20px', borderRadius: '8px' }}>
-          <Title level={3}>Lançar Nova Transação</Title>
+        <div className="flex-column form-panel">
+          <Title level={3} className="panel-title">Lançar Nova Transação</Title>
           <TransactionForm />
         </div>
       </div>
 
-      <hr />
+      <hr className="section-divider" />
 
       <TransactionList />
 
-      <hr />
+      <hr className="section-divider" />
 
-      {/* Seção de Relatórios / Totais */}
-      <div style={{ marginTop: '40px' }}>
-        <h2>Consultas e Totais</h2>
+      <div className="reports-section">
+        <Title level={2} className="panel-title reports-title">Consultas e Totais</Title>
         <SummaryDashboard />
       </div>
 

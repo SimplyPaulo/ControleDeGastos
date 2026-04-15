@@ -7,8 +7,6 @@ namespace ExpenseTracker.Models
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public int Age { get; set; }
-
-        [JsonIgnore]
         public List<Transaction> Transactions { get; set; } = new();
     }
 }
