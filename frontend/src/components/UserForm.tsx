@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { createPerson } from '../services';
+import { createUser } from '../services';
 import { useNotify } from './useNotify';
 
-export const PersonForm = () => {
+export const UserForm = () => {
   const [name, setName] = useState('');
   const [age, setAge] = useState<number | ''>('');
   const { notifySuccess, notifyError } = useNotify();
@@ -10,7 +10,7 @@ export const PersonForm = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await createPerson(name, Number(age));
+      await createUser(name, Number(age));
       notifySuccess('Usuário salvo!', `${name} foi cadastrado com sucesso.`);
       setName('');
       setAge('');
@@ -21,12 +21,11 @@ export const PersonForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="app-form">
-      <h3>Cadastrar Usuário</h3>
       <input
         type="text"
         value={name}
-        onChange={e => setName(e.target.value)}
-        placeholder="Nome da pessoa"
+        onChange={e => setName(e.target.value.replace(/[0-9]/g, ''))}
+        placeholder="Nome do usuário"
         maxLength={200}
         required
       />

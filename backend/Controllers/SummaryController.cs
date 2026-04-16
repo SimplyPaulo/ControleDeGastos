@@ -1,7 +1,5 @@
-using ExpenseTracker.Data;
-using ExpenseTracker.Models;
+using ExpenseTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseTracker.Controllers
 {
@@ -9,58 +7,39 @@ namespace ExpenseTracker.Controllers
     [Route("api/[controller]")]
     public class SummaryController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly ISummaryService _summaryService;
 
-        public SummaryController(AppDbContext context)
+        public SummaryController(ISummaryService summaryService)
         {
-            _context = context;
+            _summaryService = summaryService;
         }
 
-        [HttpGet("People")]
-        public async Task<IActionResult> GetTotalsByPerson()
+        [HttpGet("Users")]
+        public async Task<IActionResult> GetTotalsByUser()
         {
-            // Traz as pessoas e suas transações para a memória do C# primeiro
-            var people = await _context.People.Include(p => p.Transactions).ToListAsync();
-
-            // Faz o cálculo na memória, evitando a limitação do SQLite com decimais
-            var summary = people.Select(p => new
+            try
             {
-                p.Id,
-                Name = p.Name,
-                TotalIncome = p.Transactions.Where(t => t.Type == TransactionType.Income).Sum(t => t.Amount),
-                TotalExpense = p.Transactions.Where(t => t.Type == TransactionType.Expense).Sum(t => t.Amount),
-                Balance = p.Transactions.Where(t => t.Type == TransactionType.Income).Sum(t => t.Amount) - 
-                          p.Transactions.Where(t => t.Type == TransactionType.Expense).Sum(t => t.Amount)
-            }).ToList();
-
-            var overallIncome = summary.Sum(r => r.TotalIncome);
-            var overallExpense = summary.Sum(r => r.TotalExpense);
-            var netBalance = overallIncome - overallExpense;
-
-            return Ok(new { Details = summary, Overall = new { Income = overallIncome, Expense = overallExpense, Balance = netBalance } });
+                var summary = await _summaryService.GetTotalsByUserAsync();
+                return Ok(summary);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpGet("Categories")]
         public async Task<IActionResult> GetTotalsByCategory()
         {
-            var categories = await _context.Categories.ToListAsync();
-            var transactions = await _context.Transactions.ToListAsync();
-
-            var summary = categories.Select(c => new
+            try
             {
-                c.Id,
-                Name = c.Description,
-                TotalIncome = transactions.Where(t => t.CategoryId == c.Id && t.Type == TransactionType.Income).Sum(t => t.Amount),
-                TotalExpense = transactions.Where(t => t.CategoryId == c.Id && t.Type == TransactionType.Expense).Sum(t => t.Amount),
-                Balance = transactions.Where(t => t.CategoryId == c.Id && t.Type == TransactionType.Income).Sum(t => t.Amount) - 
-                          transactions.Where(t => t.CategoryId == c.Id && t.Type == TransactionType.Expense).Sum(t => t.Amount)
-            }).ToList();
-
-            var overallIncome = summary.Sum(r => r.TotalIncome);
-            var overallExpense = summary.Sum(r => r.TotalExpense);
-            var netBalance = overallIncome - overallExpense;
-
-            return Ok(new { Details = summary, Overall = new { Income = overallIncome, Expense = overallExpense, Balance = netBalance } });
+                var summary = await _summaryService.GetTotalsByCategoryAsync();
+                return Ok(summary);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }

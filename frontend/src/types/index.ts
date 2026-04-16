@@ -1,7 +1,7 @@
 export type CategoryPurpose = 0 | 1 | 2; 
 export type TransactionType = 0 | 1; 
 
-export interface Person {
+export interface User {
   id: number;
   name: string;
   age: number;

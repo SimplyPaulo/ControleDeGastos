@@ -8,7 +8,7 @@ interface Transaction {
   description: string;
   amount: number;
   type: number; // 0 = Despesa, 1 = Receita
-  person: { name: string };
+  user: { name: string };
   category: { description: string };
 }
 
@@ -57,7 +57,7 @@ export const TransactionList = () => {
           <thead>
             <tr>
               <th>Descrição</th>
-              <th>Pessoa</th>
+              <th>Usuário</th>
               <th>Categoria</th>
               <th>Tipo</th>
               <th>Valor</th>
@@ -68,7 +68,7 @@ export const TransactionList = () => {
             {transactions.map((t) => (
               <tr key={t.id}>
                 <td>{t.description}</td>
-                <td>{t.person?.name}</td>
+                <td>{t.user?.name}</td>
                 <td>{t.category?.description}</td>
                 <td>
                   <span className={t.type === 0 ? 'badge-expense' : 'badge-income'}>

@@ -6,7 +6,7 @@ export interface CreateTransactionDTO {
   amount: number;
   type: TransactionType;
   categoryId: number;
-  personId: number;
+  userId: number;
 }
 
 export const createTransaction = async (data: CreateTransactionDTO) => {

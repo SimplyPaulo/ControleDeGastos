@@ -1,11 +1,11 @@
 import { Modal, notification } from 'antd';
 import type { NotificationPlacement } from 'antd/es/notification/interface';
+import { durationInSeconds } from './useNotify';
 
-// Em mobile (< 576px) usa placement centralizado no topo; em desktop usa canto direito
 const getPlacement = (): NotificationPlacement =>
   window.innerWidth < 576 ? 'top' : 'topRight';
 
-// Em mobile as notificações ocupam a largura total da tela
+
 const getStyle = () =>
   window.innerWidth < 576
     ? { width: '100vw', marginInlineEnd: 0, borderRadius: '0 0 12px 12px', top: 0 }
@@ -16,7 +16,7 @@ export function notifySuccess(message: string, description?: string) {
     message,
     description,
     placement: getPlacement(),
-    duration: 3,
+    duration: durationInSeconds,
     style: getStyle(),
   });
 }
@@ -26,7 +26,7 @@ export function notifyError(message: string, description?: string) {
     message,
     description,
     placement: getPlacement(),
-    duration: 4,
+    duration: durationInSeconds,
     style: getStyle(),
   });
 }
@@ -39,7 +39,7 @@ export function confirmAction(title: string, content: string): Promise<boolean> 
       okText: 'Confirmar',
       okType: 'danger',
       cancelText: 'Cancelar',
-      centered: true, // modal centralizado na tela — melhor em mobile
+      centered: true,
       onOk: () => resolve(true),
       onCancel: () => resolve(false),
     });

@@ -14,7 +14,7 @@ namespace ExpenseTracker.Models
         public int CategoryId { get; set; }
         public Category? Category { get; set; }
 
-        public int PersonId { get; set; }
-        public Person? Person { get; set; }
+        public int UserId { get; set; }
+        public User? User { get; set; }
     }
 }

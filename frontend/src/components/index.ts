@@ -1,5 +1,5 @@
 export { TransactionForm } from './TransactionForm';
-export { PersonForm } from './PersonForm';
+export { UserForm } from './UserForm';
 export { CategoryForm } from './CategoryForm';
 export { SummaryDashboard } from './SummaryDashboard';
 export { TransactionList } from './TransactionList';

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { getPeople, getCategories, createTransaction } from '../services';
-import type { Person, Category, TransactionType } from '../types';
+import { getUser, getCategories, createTransaction } from '../services';
+import type { User, Category, TransactionType } from '../types';
 import { useNotify } from './useNotify';
 
 export const TransactionForm = () => {
-  const [people, setPeople] = useState<Person[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [selectedPerson, setSelectedPerson] = useState<number>(0);
+  const [selectedUser, setSelectedUser] = useState<number>(0);
   const [type, setType] = useState<TransactionType>(0);
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
   const [amount, setAmount] = useState<number | ''>('');
@@ -14,12 +14,12 @@ export const TransactionForm = () => {
   const { notifySuccess, notifyError } = useNotify();
 
   useEffect(() => {
-    getPeople().then(setPeople).catch(() => {});
+    getUser().then(setUsers).catch(() => {});
     getCategories().then(setCategories).catch(() => {});
   }, []);
 
-  const person = people.find(p => p.id === selectedPerson);
-  const isUnderage = person ? person.age < 18 : false;
+  const user = users.find(p => p.id === selectedUser);
+  const isUnderage = user ? user.age < 18 : false;
 
   useEffect(() => {
     if (isUnderage) setType(0);
@@ -39,7 +39,7 @@ export const TransactionForm = () => {
         amount: Number(amount),
         type,
         categoryId: selectedCategory,
-        personId: selectedPerson,
+        userId: selectedUser,
       });
       notifySuccess('Transação salva!', 'A transação foi lançada com sucesso.');
       setAmount('');
@@ -51,9 +51,9 @@ export const TransactionForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="app-form">
-      <select onChange={e => setSelectedPerson(Number(e.target.value))}>
-        <option value={0}>Selecione a pessoa</option>
-        {people.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+      <select onChange={e => setSelectedUser(Number(e.target.value))}>
+        <option value={0}>Selecione o usuário</option>
+        {users.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
       </select>
 
       <select
@@ -75,8 +75,8 @@ export const TransactionForm = () => {
         value={amount}
         onChange={e => setAmount(Number(e.target.value))}
         placeholder="Valor"
-        min="0.01"
-        step="0.01"
+        min="0.1"
+        step="0.1"
         required
       />
       <input

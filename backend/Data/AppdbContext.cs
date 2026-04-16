@@ -7,23 +7,22 @@ namespace ExpenseTracker.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<Person> People { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Aplicação da regra de negócio: Limite de caracteres para os campos de texto
-            modelBuilder.Entity<Person>().Property(p => p.Name).HasMaxLength(200);
+            // Character limit for text fields
+            modelBuilder.Entity<User>().Property(p => p.Name).HasMaxLength(200);
             modelBuilder.Entity<Category>().Property(c => c.Description).HasMaxLength(400);
             modelBuilder.Entity<Transaction>().Property(t => t.Description).HasMaxLength(400);
 
-            // Regra: Em casos que se delete uma pessoa, todas a transações dessa pessoa deverão ser apagadas.
-            // O OnDelete(DeleteBehavior.Cascade) garante isso diretamente no banco de dados.
+            // Cascade delete: If a user is deleted, all their transactions must be removed.
             modelBuilder.Entity<Transaction>()
-                .HasOne(t => t.Person)
+                .HasOne(t => t.User)
                 .WithMany(p => p.Transactions)
-                .HasForeignKey(t => t.PersonId)
+                .HasForeignKey(t => t.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

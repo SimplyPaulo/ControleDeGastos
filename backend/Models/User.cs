@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace ExpenseTracker.Models
 {
-    public class Person
+    public class User
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

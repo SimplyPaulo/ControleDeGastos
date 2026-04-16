@@ -1,8 +1,8 @@
 import api from './api';
 import type { SummaryResponse } from '../types';
 
-export const getSummaryByPeople = async (): Promise<SummaryResponse> => {
-  const response = await api.get('/summary/people');
+export const getSummaryByUser = async (): Promise<SummaryResponse> => {
+  const response = await api.get('/summary/users');
   return response.data;
 };
 

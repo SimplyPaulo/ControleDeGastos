@@ -21,7 +21,6 @@ export const CategoryForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="app-form">
-      <h3>Cadastrar Categoria</h3>
       <input
         type="text"
         value={description}

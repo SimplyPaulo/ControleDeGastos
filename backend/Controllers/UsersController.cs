@@ -6,37 +6,43 @@ namespace ExpenseTracker.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TransactionsController : ControllerBase
+    public class UsersController : ControllerBase
     {
-        private readonly ITransactionService _transactionService;
+        private readonly IUserService _userService;
 
-        public TransactionsController(ITransactionService transactionService)
+        public UsersController(IUserService userService)
         {
-            _transactionService = transactionService;
+            _userService = userService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            var transactions = await _transactionService.GetAllAsync();
-            return Ok(transactions);
-        }
+        public async Task<IActionResult> GetAll() => Ok(await _userService.GetAllAsync());
 
         [HttpPost]
-        public async Task<IActionResult> Create(Transaction transaction)
+        public async Task<IActionResult> Create(User user)
         {
             try
             {
-                var createdTransaction = await _transactionService.CreateAsync(transaction);
-                return Ok(createdTransaction);
+                var createdPerson = await _userService.CreateAsync(user);
+                return Ok(createdPerson);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, User user)
+        {
+            try
+            {
+                await _userService.UpdateAsync(id, user);
+                return NoContent();
             }
             catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
@@ -49,7 +55,7 @@ namespace ExpenseTracker.Controllers
         {
             try
             {
-                await _transactionService.DeleteAsync(id);
+                await _userService.DeleteAsync(id);
                 return NoContent();
             }
             catch (KeyNotFoundException ex)

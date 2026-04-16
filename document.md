@@ -1,1 +1,0 @@
-ok, vamos pra review: o titulo ficou cortado na horizontal. coloque os seguintes topicos dentro do arquivo css global para reutilização de codigo, seguindo os padrões do codigo: fonte inter, estilização do ant design para botoes, estilização do ant design para tables (o de consultas e totais e historico de transações) e um input melhor para idade

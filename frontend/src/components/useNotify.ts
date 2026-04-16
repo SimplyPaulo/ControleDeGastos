@@ -1,6 +1,9 @@
 import { App } from 'antd';
 
 
+const durationInSeconds = 3;
+
+
 export const useNotify = () => {
   const { notification, modal } = App.useApp();
 
@@ -9,7 +12,7 @@ export const useNotify = () => {
       message,
       description,
       placement: window.innerWidth < 576 ? 'top' : 'topRight',
-      duration: 3,
+      duration: durationInSeconds,
     });
   };
 
@@ -18,7 +21,7 @@ export const useNotify = () => {
       message,
       description,
       placement: window.innerWidth < 576 ? 'top' : 'topRight',
-      duration: 4,
+      duration: durationInSeconds,
     });
   };
 
@@ -39,3 +42,5 @@ export const useNotify = () => {
 
   return { notifySuccess, notifyError, confirmAction };
 };
+
+export { durationInSeconds }

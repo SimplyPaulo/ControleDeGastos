@@ -1,92 +1,53 @@
-# Sistema de Controle de Gastos Fullstack em C#, React e TypeScript
+# Expense Tracker Fullstack
 
-Este projeto foi desenvolvido como parte de um teste para a vaga de Desenvolvedor Junior. É uma aplicação Full-Stack para gerenciar receitas e despesas, incluindo regras específicas para validação de idade e categorias.
+Personal finance management application built with a .NET backend and a React frontend. The system allows users to track income and expenses, manage categories, and visualize financial summaries through a dashboard.
 
-## Decisões Arquiteturais
+## Project Structure
 
-Para facilitar a avaliação técnica, foram tomadas as seguintes decisões:
+- **backend/**: ASP.NET Core Web API with Entity Framework Core and SQLite.
+- **frontend/**: React application built with Vite, TypeScript, and Ant Design.
 
-* **Banco de Dados SQLite:** Foi escolhido para garantir um modelo Zero-Config. O avaliador não precisa ter um servidor de banco de dados em funcionamento; ao rodar o projeto, o banco `.db` é criado e usado localmente.
+## Core Features
 
-* **Prevenção de Over-fetching:** A anotação `[JsonIgnore]` foi utilizada nos *Models* do Back-end. Isso impede que o Swagger e os Endpoints enviem objetos inteiros e aninhados desnecessariamente, exigindo apenas os IDs nas requisições POST. Isso melhora a performance e os testes via Swagger.
+- User management with cascading deletes.
+- Category management with logic to prevent deletion if linked to transactions.
+- Transaction tracking (Income/Expense).
 
-* **Cálculos em Memória:** O SQLite tem limitações com cálculos de agregação, como o `Sum` em campos decimais. A lógica foi aprimorada usando `.ToListAsync()` para trazer os dados para a memória da aplicação e permitir que o C# processe a matemática complexa de maneira segura e rápida.
+- Business rules: Users under 18 years old can only register expenses.
+- Automated database migration and seeding for initial demonstration.
+- Responsive design with Dark Mode support.
 
-* **UX/UI:** O Front-end foi projetado para oferecer uma boa experiência ao usuário. Ele bloqueia limites de caracteres nativamente via `maxLength`, filtra opções dinamicamente e usa a formatação  `Intl.NumberFormat` para transformar os valores em Reais (R$).
+## Getting Started
 
-## Tecnologias Utilizadas
+### Prerequisites
 
-**Back-end:**
-* C# / .NET 8 
-* Entity Framework Core
-* Banco de Dados: SQLite
-* Swagger 
+- .NET 8 SDK
+- Node.js (version 18 or higher)
+- npm
 
-**Front-end:**
-* React 
-* TypeScript
-* Axios 
+### Running the Application
 
-## Funcionalidades Implementadas
+The project is configured to work out-of-the-box using default local ports (5285 for Backend and 5173 for Frontend). No manual configuration is required for local execution.
 
-* **Pessoas:** Cadastro, listagem e exclusão, com Exclusão em Cascata direta pelo Banco de Dados, apagando transações vinculadas automaticamente.
+1. **Start the Backend**:
+   ```bash
+   cd backend
+   dotnet run
+   ```
+   The database will be automatically created and seeded on the first run.
 
-* **Categorias:** Cadastro e listagem, definindo a finalidade (0 - Despesa, 1 - Receita, 2 - Ambas).
+2. **Start the Frontend**:
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
 
-* **Transações:**
-  * Lançamento de despesas e receitas.
-  * *Regra de Negócio:* Menores de 18 anos só podem registrar despesas.
-  * *Regra de Negócio:* Restrição na exibição e lançamento de categorias que não combinam com o tipo de transação selecionado.
-
-* **Dashboard / Resumos:**
-  * Totais por pessoa (Receita, Despesa e Saldo Líquido).
-  * **(Opcional)** Totais por categoria.
-  * Linha de totalizador geral da aplicação.
-
-
-
-## Como executar o projeto na sua máquina
-
-Para testar a aplicação, você precisará ter o [Node.js](https://nodejs.org/) e o [.NET SDK](https://dotnet.microsoft.com/download) instalados em sua máquina.
-
-### 1. Executando o Back-end 
-
-Abra um terminal, navegue até a pasta `backend` e execute os comandos:
-
-```bash
-# Entre na pasta do backend
-cd backend
-
-# Restaure as dependências
-dotnet restore
-
-# Execute o projeto
-dotnet run
-```
-
-A API iniciará na porta [5285](http://localhost:5285).
-Você pode acessar o Swagger adicionando /swagger ao final do link exibido no terminal para testar a API de forma interativa.
-
-### 2. Executando o Front-end 
-
-Abra um novo terminal, mantenha o do back-end rodando, navegue até a pasta frontend e execute: 
-
-```bash
-# Entre na pasta do frontend
-cd frontend
-
-# Instale os pacotes necessários
-npm install
-
-# Inicie o servidor de desenvolvimento
-npm run dev
-```
-
-O painel do Vite fornecerá um link local [Vite](http://localhost:5173). Abra este link no seu navegador para utilizar o sistema.
+   The application will be available at `http://localhost:5173`.
 
 
 ---
 <br>
 <br>
 
-**Desenvolvido por Paulo Alexandre Medeiro - [LinkedIn](https://www.linkedin.com/in/pauloamedeiro/)**
+**Developed by Paulo Alexandre Medeiro - [LinkedIn](https://www.linkedin.com/in/pauloamedeiro/)**
